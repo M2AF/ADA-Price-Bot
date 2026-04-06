@@ -5,7 +5,7 @@ const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-// Fetch ADA price from CoinGecko (free, no API key needed)
+// Fetch ADA price from CoinGecko API
 async function getADAPrice() {
   const url =
     "https://api.coingecko.com/api/v3/simple/price?ids=cardano&vs_currencies=usd&include_24hr_change=true";
