@@ -24,7 +24,6 @@ async function updatePrice() {
 
     const arrow = change >= 0 ? "▲" : "▼";
 
-    // This is what shows UNDER the bot name
     const status = `ADA $${price.toFixed(4)} ${arrow}${Math.abs(change).toFixed(2)}% 24h`;
 
     client.user.setActivity(status, { type: ActivityType.Watching });
@@ -37,19 +36,8 @@ async function updatePrice() {
 
 client.once("ready", () => {
   console.log(`Bot is online as: ${client.user.tag}`);
-  console.log(`Type "stop" and press Enter to shut down the bot.`);
   updatePrice();
   setInterval(updatePrice, 5 * 60 * 1000); // update every 5 minutes
-});
-
-// Type "stop" in CMD to shut down cleanly
-process.stdin.resume();
-process.stdin.on("data", (data) => {
-  if (data.toString().trim() === "stop") {
-    console.log("Shutting down...");
-    client.destroy();
-    process.exit(0);
-  }
 });
 
 client.login(BOT_TOKEN);
