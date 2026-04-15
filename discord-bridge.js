@@ -26,7 +26,7 @@ try {
 
 const BOT_TOKEN  = CONFIG.DISCORD_BOT_TOKEN;
 const CHANNEL_ID = CONFIG.DISCORD_CHANNEL_ID;
-const WS_PORT    = 8081;
+const WS_PORT    = 8080;
 
 if (!BOT_TOKEN || BOT_TOKEN === 'REPLACE_WITH_NEW_TOKEN') {
   console.error('❌  Set DISCORD_BOT_TOKEN in config.js before running.');
