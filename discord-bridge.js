@@ -24,7 +24,7 @@ let YT_API_KEY = '';
 let YT_CHAN_ID = '';
 
 const WS_PORT   = parseInt(process.env.DISCORD_BRIDGE_WS_PORT) || 8081;
-const HTTP_PORT = WS_PORT + 1;
+const HTTP_PORT = WS_PORT = 8082; // Separate port for HTTP proxy to avoid conflicts
 
 /**
  * INITIALIZATION ENGINE
