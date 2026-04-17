@@ -20,7 +20,7 @@ let YT_API_KEY = process.env.YOUTUBE_API_KEY || '';
 let YT_CHAN_ID = process.env.YOUTUBE_CHANNEL_ID || '';
 
 // Single Port for Railway (Supports both WS and HTTP via the same server)
-const PORT = parseInt(process.env.PORT) || 8081;
+const PORT = parseInt(process.env.PORT) || 8080;
 
 // ── 2. INITIALIZATION ENGINE ──────────────────────────────────────────────────
 function initializeConfiguration() {
