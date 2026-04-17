@@ -126,7 +126,10 @@ let ytLiveChatId = null;
 let ytNextPageToken = null;
 
 function googleFetch(apiPath, callback) {
-    if (!YT_API_KEY) return;
+    if (!YT_API_KEY) {
+        callback(new Error('YOUTUBE_API_KEY not configured on server'));
+        return;
+    }
     const fullUrl = `https://www.googleapis.com/youtube/v3/${apiPath}&key=${YT_API_KEY}`;
     https.get(fullUrl, (res) => {
         let raw = '';
@@ -188,15 +191,39 @@ httpServer.on('request', (req, res) => {
     if (parsed.pathname === '/yt-proxy') {
         const action = parsed.query.action;
         let apiPath = '';
+
         if (action === 'resolveChannel') {
+            // Resolve a @handle → channel ID
             apiPath = `channels?part=id&forHandle=${encodeURIComponent(parsed.query.handle)}`;
         } else if (action === 'findLive') {
+            // Find active livestream video ID for a channel
             apiPath = `search?part=id&channelId=${encodeURIComponent(parsed.query.channelId)}&type=video&eventType=live`;
+        } else if (action === 'getLiveChatId') {
+            // Get the liveChatId from a video ID
+            apiPath = `videos?part=liveStreamingDetails&id=${encodeURIComponent(parsed.query.videoId)}`;
+        } else if (action === 'poll') {
+            // Poll live chat messages
+            apiPath = `liveChat/messages?liveChatId=${encodeURIComponent(parsed.query.liveChatId)}&part=snippet,authorDetails&maxResults=200`;
+            if (parsed.query.pageToken) apiPath += `&pageToken=${encodeURIComponent(parsed.query.pageToken)}`;
+        } else {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Unknown action: ' + action }));
+            return;
+        }
+
+        if (!apiPath) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Missing required parameters' }));
+            return;
         }
 
         googleFetch(apiPath, (err, data) => {
             res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(data || { error: 'Fetch failed' }));
+            if (err) {
+                res.end(JSON.stringify({ error: err.message }));
+            } else {
+                res.end(JSON.stringify(data || { error: 'Empty response from YouTube API' }));
+            }
         });
     } else if (parsed.pathname === '/kick-chatroom') {
         const slug = parsed.query.slug;
