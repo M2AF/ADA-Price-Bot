@@ -62,6 +62,9 @@ function initializeConfiguration() {
 }
 initializeConfiguration();
 
+// DEBUG — remove after confirming YouTube works
+console.log('[YouTube Debug] API Key set:', !!YT_API_KEY, '| Channel ID:', YT_CHAN_ID);
+
 // ── 3. UNIFIED SERVER (WS + HTTP) ─────────────────────────────────────────────
 const httpServer = http.createServer();
 const wss = new WebSocket.Server({ server: httpServer });
