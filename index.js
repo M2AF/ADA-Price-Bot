@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const BOT_TOKEN  = process.env.BOT_TOKEN;
 const CHANNEL_ID = process.env.DISCORD_CHANNEL_ID || '1217523827274158232';
-const WS_PORT    = parseInt(process.env.PORT) || 8081;
+const WS_PORT    = parseInt(process.env.PORT) || 8080;
 
 const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
 const WebSocket = require("ws");
