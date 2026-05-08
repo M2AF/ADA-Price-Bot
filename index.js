@@ -16,7 +16,7 @@ const client = new Client({
   ]
 });
 
-// ── WebSocket bridge server → multichat.html ──────────────────────────────────
+// ── WebSocket bridge server → multichat.html  ──────────────────────────────────
 const wss     = new WebSocket.Server({ port: WS_PORT });
 const clients = new Set();
 
